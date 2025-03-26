@@ -1,19 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment'; // Import environment
 
 @Injectable({
   providedIn: 'root',
 })
 export class NewsService {
-  //private apiKey = process.env.API_KEY 
   private apiUrl = 'https://newsdata.io/api/1/news';
 
   constructor(private http: HttpClient) {}
 
-  getNews(): Observable<any> {
-    const url = `${this.apiUrl}?apikey=pub_760103d6e5022270fc0ffbf54d99c790a5344&language=en`;
-    //https://newsdata.io/api/1/archive?apikey=pub_760103d6e5022270fc0ffbf54d99c790a5344&q=example&language=en&from_date=2023-01-19&to_date=2023-01-25
-    return this.http.get(url);
+  getNews(
+    searchTerm: string = '',
+    category: string = '',
+    country: string = 'us'
+  ): Observable<any> {
+    // Use the environment variable
+    let params = new HttpParams().set('apikey', environment.newsApiKey);
+
+    if (searchTerm) params = params.set('q', searchTerm);
+    if (category) params = params.set('category', category);
+    if (country) params = params.set('country', country);
+
+    return this.http.get(this.apiUrl, { params });
   }
 }

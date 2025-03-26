@@ -1,12 +1,20 @@
 <div class="container mt-4">
-    <h2>Latest News</h2>
-    <div *ngFor="let article of news" class="card mb-3">
-      <img [src]="article.image_url" class="card-img-top" alt="{{ article.title }}">
+  <h2 class="title">Latest News</h2>
+  <div class="d-flex flex-wrap flex-row">
+  <div *ngFor="let article of news" class="card news-card">
+      <img
+        [src]="article.image_url || 'defaultNews.jpeg'"
+        alt="{{ article.title }}"
+        class="img-container"
+        onerror="this.src='defaultNews.jpeg'"
+      />
       <div class="card-body">
         <h5 class="card-title">{{ article.title }}</h5>
         <p class="card-text">{{ article.description }}</p>
-        <a [href]="article.link" target="_blank" class="btn btn-primary">Read more</a>
+        <a [href]="article.link" target="_blank" class="btn btn-primary"
+          >Read more</a
+        >
       </div>
-    </div>
+</div> 
   </div>
-  
+</div> 
